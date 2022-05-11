@@ -1,36 +1,24 @@
-import itertools
+T = int(input())
+for t in range(1, T + 1):
+    command = input()
+    x, y = 0, 0
+    dir_list = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+    dir_idx = 0
+    max_dixtance = 0
+    for c in command * 4:
+        dx, dy = dir_list[dir_idx]
+        if c == 'S':
+            x += dx
+            y += dy
+        elif c == 'L':
+            dir_idx = (dir_idx - 1) % 4
+        elif c == 'R':
+            dir_idx = (dir_idx + 1) % 4
+        distance = x * x + y * y
+        max_dixtance = max(max_dixtance, distance)
 
-
-def shake_number(num):
-    len_num = len(str(num))
-    shaked_number_list = []
-    for indiv in itertools.permutations(range(len_num)):
-        temp = ''
-        if str(num)[indiv[0]] == '0': continue
-        for idx in indiv:
-            temp += str(num)[idx]
-        shaked_number_list.append(int(temp))
-    return shaked_number_list
-
-
-def sol_2072():
-    T = int(input())
-    for t in range(1, T + 1):
-        odd_list = [i for i in map(int, input().split()) if i % 2]
-        print(f'#{t} {sum(odd_list)}')
-
-
-def sol_14361():
-    T = int(input())
-    for t in range(1, T + 1):
-        N = int(input())
-        check = False
-        for shaked_num in shake_number(N):
-            if shaked_num % N == 0 and shaked_num > N:
-                check = True
-                break
-        print(f'#{t} {"possible" if check else "impossible"}')
-
-
-if __name__ == "__main__":
-    sol_14361()
+    if x == y == 0:
+        answer = max_dixtance
+    else:
+        answer = 'oo'
+    print(f'#{t} {answer}')
